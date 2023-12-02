@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <label>Elija un usuario</label><br><br>
+    <select name="seleccion" id="empleado"> 
+    <option value="1">Empleado 1</option>
+    <option value="2">Empleado 2</option>
+    <option value="3">Empleado 3</option>
+    </select> 
+    <button id="boton">ENVIAR</button>
+    <hr>
+
+    <table border= 1 width= 50%>
+        <tr>
+            <th>NOMBRE</th>
+            <th>EMAIL</th>
+            <th>EDAD</th>
+        </tr>
+        <tr>
+            <td id="nombreEmpleado"></td>
+            <td id="emailEmpleado"></td>
+            <td id="edadEmpleado"></td>
+        </tr>
+    </table>
+
+    <script>
+   
+            var peticion = new XMLHttpRequest(); //creamos un objeto XMLHttpRequest
+            var ruta = "gestorDatos.php";
+            document.getElementById("boton").onclick = function(){
+                var datos = document.getElementById("empleado").value;
+                console.log(datos);
+                var nuevaRuta = ruta + "?empleado=" + datos;
+                peticion.open("GET", nuevaRuta); //le damos la ruta
+                peticion.send(); //enviamos la peticion
+            }
+            
+
+            peticion.onload = function() {
+            let responseObj = JSON.parse(peticion.response);//recogemos la petición parseandola
+            console.log(responseObj); //la mostramos
+            document.getElementById("nombreEmpleado").innerHTML = responseObj.nombre;
+            document.getElementById("emailEmpleado").innerHTML = (responseObj.email);
+            document.getElementById("edadEmpleado").innerHTML = (responseObj.edad);
+            };
+        
+    </script>
+
+</body>
+
+</html>
